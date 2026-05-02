@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Tipo de saída: biblioteca -->
+    <OutputType>Library</OutputType>
+
+    <!-- Framework alvo -->
+    <TargetFramework>net8.0</TargetFramework>
+
+    <!-- Informações do pacote NuGet -->
+    <PackageId>EliasFM.ArtificialNeuralNetwork.Core</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>EliasFM</Authors>
+    <Description>Base library for neural networks</Description>
+
+    <!-- Facilidades -->
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    
+    <!-- Gera o pacote automaticamente ao build -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+</Project>
