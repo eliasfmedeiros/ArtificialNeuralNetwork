@@ -2,7 +2,9 @@ using System.Text;
 
 namespace EliasFM.ArtificialNeuralNet.Core;
 
-public abstract class Neuron : INeural, IActivator {
+public abstract class Neuron : INeural {
+
+	public abstract IActivation GetActivation();
 	public abstract int InputLength { get; }
 	public abstract double GetWeightValue(int index);
 	public abstract double GetBiasValue();
@@ -16,10 +18,8 @@ public abstract class Neuron : INeural, IActivator {
 		return sum;
 	}
 
-	public abstract double ApplyActivationFunction(double x);
-
 	public double ComputeOutput(double[] input) {
-		return ApplyActivationFunction(WeightedSum(input));
+		return GetActivation().Apply(WeightedSum(input));
 	}
 
 	public int OutputLength => 1;
@@ -44,7 +44,7 @@ public abstract class Neuron : INeural, IActivator {
 
 	public static double Random1Inclusive((Random main, Random antagonist)? generators = null) {
 		Random mainGenerator = generators == null ? Random.Shared : generators.Value.main;
-		byte t = 0;
+		int t = 0;
 		while (t++ < 2) {
 			double candidate = mainGenerator.NextDouble();
 			if (candidate != BlockedRandom) return candidate;
@@ -55,6 +55,4 @@ public abstract class Neuron : INeural, IActivator {
 	}
 
 	public static double DefaultStartingWeight(Random? rdn = null) => Random1Inclusive(rdn == null ? null : (rdn, rdn)) * 2 - 1;
-	//public static double DefaultStartingWeight(Random? rdn = null) => Math.Round(Random1Inclusive(rdn==null?null:(rdn, rdn)) * 2 - 1, 2);
-
 }

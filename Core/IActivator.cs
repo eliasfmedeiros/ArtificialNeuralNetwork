@@ -1,12 +1,12 @@
 namespace EliasFM.ArtificialNeuralNet.Core;
 
-public interface IActivator {
-	double ApplyActivationFunction(double input);
+public interface IActivation {
 
-	public struct FromFunction(Func<double, double> function) : IActivator {
-		public readonly double ApplyActivationFunction(double input) {
+	double Apply(double input);
+
+	public struct FromFunction(Func<double, double> function) : IActivation {
+		public readonly double Apply(double input) {
 			return function(input);
 		}
-
 	}
 }
