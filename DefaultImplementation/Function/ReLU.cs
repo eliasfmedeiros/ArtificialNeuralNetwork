@@ -14,4 +14,8 @@ public class ReLU : IActivation {
 
 	public override string ToString() => GetType().Name;
 
+	public class Leaky(double leak) : ReLU {
+		public override double GetLeak() => leak;
+		public virtual void SetLeak(double value) => leak = value;
+	}
 }
