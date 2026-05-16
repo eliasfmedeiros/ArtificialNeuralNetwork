@@ -1,0 +1,1 @@
+code . | Out-Null; exit

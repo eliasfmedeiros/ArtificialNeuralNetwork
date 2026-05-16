@@ -5,8 +5,9 @@ obj/
 # Visual Studio
 .vs/
 
-# VS Code (opcional)
+# VS Code 
 .vscode/
+*.lscache
 
 # Arquivos de usuário
 *.user
