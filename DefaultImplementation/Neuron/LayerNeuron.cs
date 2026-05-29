@@ -17,4 +17,21 @@ public abstract class LayerNeuron : Core.Neuron {
 	public override double GetBiasValue() => WeightArr[BiasIndex];
 	public virtual int BiasIndex => InputLength;
 
+	#region subclasses
+	public sealed class CustomActivation(int inputs, IActivation activation) : LayerNeuron(inputs) {
+		public override IActivation GetActivation() => activation;
+	}
+
+	public sealed class ReLUActivation(int inputs) : LayerNeuron(inputs) {
+		public override IActivation GetActivation() => Function.ReLU.Shared;
+	}
+
+	public sealed class SigmoidActivation(int inputs) : LayerNeuron(inputs) {
+		public override IActivation GetActivation() => Function.Sigmoid.Shared;
+	}
+
+	public sealed class TanhActivation(int inputs) : LayerNeuron(inputs) {
+		public override IActivation GetActivation() => Function.Tanh.Shared;
+	}
+	#endregion
 }
