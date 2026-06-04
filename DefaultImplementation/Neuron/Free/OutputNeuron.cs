@@ -27,6 +27,24 @@ public abstract class OutputNeuron : FreeNN.InputDescribedNeuron {
 
 	public override double GetBiasValue() => bias;
 
+	public double SetBias(double value) => bias = value;
+
+	public virtual int BiasIndex => InputLength;
+
+	public void AddInputChannel(SignalChannel[] addInput) {
+		SignalChannel[] newArr = new SignalChannel[ChannelArr.Length + addInput.Length];
+		for (int i = 0; i < ChannelArr.Length; i++) newArr[i] = ChannelArr[i];
+		for (int i = 0; i < addInput.Length; i++) newArr[ChannelArr.Length + i] = addInput[i];
+		ChannelArr = newArr;
+	}
+
+	public void RemoveInputChannel(int iIndex, byte range = 1) {
+		SignalChannel[] newArr = new SignalChannel[ChannelArr.Length - range];
+		for (int i = 0; i < iIndex; i++) newArr[i] = ChannelArr[i];
+		for (int i = iIndex + range; i < ChannelArr.Length; i++) newArr[i - range] = ChannelArr[i];
+		ChannelArr = newArr;
+	}
+
 	#region subclasses
 	//TODO
 	#endregion
