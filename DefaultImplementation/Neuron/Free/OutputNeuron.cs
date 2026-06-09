@@ -8,12 +8,14 @@ public abstract class OutputNeuron : FreeNN.InputDescribedNeuron {
 	public SignalChannel[] ChannelArr { get; private set; }
 	private double bias;
 
-	public OutputNeuron(IActivation activation, IInputDescriptor[] input, Random? weightStarter = null) {
+	public OutputNeuron(IInputDescriptor[] input, Random? weightStarter = null) {
+		//, double precomputedOutput = 0) : base(precomputedOutput) {
 		ChannelArr = new SignalChannel[input.Length];
 		for (int i = 0; i < input.Length; i++) ChannelArr[i] = new SignalChannel(input[i], weightStarter);
 		bias = DefaultStartingWeight(weightStarter);
 	}
-	public OutputNeuron(IActivation activator, SignalChannel[] input, double bias) {
+	public OutputNeuron(SignalChannel[] input, double bias) {
+		//, double precomputedOutput = 0) : base(precomputedOutput) {
 		ChannelArr = input;
 		this.bias = bias;
 	}
@@ -46,7 +48,21 @@ public abstract class OutputNeuron : FreeNN.InputDescribedNeuron {
 	}
 
 	#region subclasses
-	//TODO
+	public sealed class CustomActivated(IInputDescriptor[] input, IActivation activation, Random? weightStarter = null) : OutputNeuron(input, weightStarter) {
+		public override IActivation GetActivation() => activation;
+	}
+
+	public sealed class ReLUActivated(IInputDescriptor[] input, Random? weightStarter = null) : OutputNeuron(input, weightStarter) {
+		public override IActivation GetActivation() => Function.ReLU.Shared;
+	}
+
+	public sealed class SigmoidActivated(IInputDescriptor[] input, Random? weightStarter = null) : OutputNeuron(input, weightStarter) {
+		public override IActivation GetActivation() => Function.Sigmoid.Shared;
+	}
+
+	public sealed class TanhActivated(IInputDescriptor[] input, Random? weightStarter = null) : OutputNeuron(input, weightStarter) {
+		public override IActivation GetActivation() => Function.Tanh.Shared;
+	}
 	#endregion
 
 }
