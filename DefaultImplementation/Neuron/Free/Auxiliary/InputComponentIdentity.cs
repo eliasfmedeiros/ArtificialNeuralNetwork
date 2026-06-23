@@ -5,7 +5,7 @@ using static EliasFM.ArtificialNeuralNet.Core.Network.FreeNN;
 
 namespace EliasFM.ArtificialNeuralNet.CommonImplementation.Neuron.Free.Auxiliary;
 
-public struct InputDescriptor(InputSourceType sourceType, int indexInSource) : InputDescribedNeuron.IInputDescriptor {
+public struct InputComponentIdentity(InputSourceType sourceType, int indexInSource) : InputDescribedNeuron.IInputComponentIdentity {
 	#region constants and static methods
 	public const int AuxInputBase = int.MinValue / 2;
 	public const int NetworkInputBase = int.MinValue;

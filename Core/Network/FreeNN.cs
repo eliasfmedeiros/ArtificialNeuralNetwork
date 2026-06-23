@@ -15,7 +15,7 @@ public abstract partial class FreeNN : INetwork {
 	private double[] BuildNeuronInput(InputDescribedNeuron neuron, double[] networkInput) { // neuronios são sempre acessíveis, mas networkInput só existe durante chamada de método
 		double[] neuronInput = new double[neuron.InputLength];
 		for (int iInput = 0; iInput < neuronInput.Length; iInput++) {
-			InputDescribedNeuron.IInputDescriptor inputDescription = neuron.DescribeInput(iInput);
+			InputDescribedNeuron.IInputComponentIdentity inputDescription = neuron.IdentifyInputComponent(iInput);
 			switch (inputDescription.SourceType) {
 				case InputSourceType.HiddenNeuron: neuronInput[iInput] = HiddenNeuronAt(inputDescription.IndexInSource).StoredOutput; break;
 				case InputSourceType.NetworkInput: neuronInput[iInput] = networkInput[inputDescription.IndexInSource]; break;
@@ -59,18 +59,18 @@ public abstract partial class FreeNN : INetwork {
 	public enum InputSourceType { NetworkInput, HiddenNeuron, AuxInput }
 
 	public abstract class InputDescribedNeuron : Neuron {
-		public interface IInputDescriptor {
+		public interface IInputComponentIdentity {
 			InputSourceType SourceType { get; }
 			int IndexInSource { get; }
 			string ToString();
 		}
-		public abstract IInputDescriptor DescribeInput(int inputIndex);
+		public abstract IInputComponentIdentity IdentifyInputComponent(int index);
 
 		public override string ToString() {
 			int inputLength = InputLength;
 			StringBuilder sb = new(GetType().Name + '{' + $"bias:{GetBiasValue()},inputs[{inputLength}]:[");
 			for (int i = 0; i < inputLength; i++)
-				sb.Append($"#{i}:" + '{' + $"ref:{DescribeInput(i)},weight:{GetWeightValue(i)}" + "},");
+				sb.Append($"#{i}:" + '{' + $"ref:{IdentifyInputComponent(i)},weight:{GetWeightValue(i)}" + "},");
 			return sb.Remove(sb.Length - 1, 1).Append("]}").ToString();
 		}
 	}

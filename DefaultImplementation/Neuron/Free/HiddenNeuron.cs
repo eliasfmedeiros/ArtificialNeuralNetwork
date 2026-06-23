@@ -8,7 +8,7 @@ public abstract class HiddenNeuron : FreeNN.HiddenNeuron {
 	public SignalChannel[] ChannelArr { get; private set; }
 	private double bias;
 
-	public HiddenNeuron(IInputDescriptor[] input, Random? weightStarter = null
+	public HiddenNeuron(IInputComponentIdentity[] input, Random? weightStarter = null
 			, double precomputedOutput = 0) : base(precomputedOutput) {
 		ChannelArr = new SignalChannel[input.Length];
 		for (int i = 0; i < input.Length; i++) ChannelArr[i] = new SignalChannel(input[i], weightStarter);
@@ -25,7 +25,7 @@ public abstract class HiddenNeuron : FreeNN.HiddenNeuron {
 	public override double GetWeightValue(int index) =>
 		index == InputLength ? GetBiasValue() : ChannelArr[index].Weight;
 
-	public override IInputDescriptor DescribeInput(int index) => ChannelArr[index].InputDescriptor;
+	public override IInputComponentIdentity IdentifyInputComponent(int index) => ChannelArr[index].InputDescriptor;
 
 	public override double GetBiasValue() => bias;
 
@@ -48,19 +48,19 @@ public abstract class HiddenNeuron : FreeNN.HiddenNeuron {
 	}
 
 	#region subclasses
-	public sealed class CustomActivated(IInputDescriptor[] input, IActivation activation, Random? weightStarter = null) : HiddenNeuron(input, weightStarter) {
+	public sealed class CustomActivated(IInputComponentIdentity[] input, IActivation activation, Random? weightStarter = null) : HiddenNeuron(input, weightStarter) {
 		public override IActivation GetActivation() => activation;
 	}
 
-	public sealed class ReLUActivated(IInputDescriptor[] input, Random? weightStarter = null) : HiddenNeuron(input, weightStarter) {
+	public sealed class ReLUActivated(IInputComponentIdentity[] input, Random? weightStarter = null) : HiddenNeuron(input, weightStarter) {
 		public override IActivation GetActivation() => Function.ReLU.Shared;
 	}
 
-	public sealed class SigmoidActivated(IInputDescriptor[] input, Random? weightStarter = null) : HiddenNeuron(input, weightStarter) {
+	public sealed class SigmoidActivated(IInputComponentIdentity[] input, Random? weightStarter = null) : HiddenNeuron(input, weightStarter) {
 		public override IActivation GetActivation() => Function.Sigmoid.Shared;
 	}
 
-	public sealed class TanhActivated(IInputDescriptor[] input, Random? weightStarter = null) : HiddenNeuron(input, weightStarter) {
+	public sealed class TanhActivated(IInputComponentIdentity[] input, Random? weightStarter = null) : HiddenNeuron(input, weightStarter) {
 		public override IActivation GetActivation() => Function.Tanh.Shared;
 	}
 	#endregion
